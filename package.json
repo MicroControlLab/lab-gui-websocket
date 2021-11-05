@@ -31,7 +31,7 @@
   "scripts": {
     "lint": "tslint -t codeFrame 'src/**/*.{ts,tsx,js}' 'tests/**/*.{ts,tsx,js}'",
     "prebuild": "rimraf dist",
-    "build": "tsc --module commonjs && rollup -c rollup.config.ts && typedoc --out docs --theme minimal src",
+    "build": "tsc --module commonjs && rollup -c rollup.config.ts && typedoc --out docs src",
     "start": "rollup -c rollup.config.ts -w",
     "test": "jest --coverage",
     "test:watch": "jest --coverage --watch",
