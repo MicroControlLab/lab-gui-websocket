@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { WebSocket as mockWebSocket, Server, CloseOptions } from 'mock-socket'
+import { WebSocket as mockWebSocket, Server, Client, CloseOptions } from 'mock-socket'
 import { LabGuiWebsocket, LabGuiWebsocketOptions, SendData } from '../src'
 
 const getMockLabGuiWebsocket = (
@@ -64,7 +64,7 @@ describe('Testing LabGuiWebsocket', () => {
     it('messages sent at connection start', (done) => {
       const mockServer = new Server(url)
 
-      mockServer.on('connection', (socket: mockWebSocket) => {
+      mockServer.on('connection', (socket: Client) => {
         socket.send('connected')
       })
 
