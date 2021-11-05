@@ -3,7 +3,7 @@
  */
 
 import { WebSocket as mockWebSocket, Server, CloseOptions } from 'mock-socket'
-import { LabGuiWebsocket, LabGuiWebsocketOptions, SendData } from '../src/lab-gui-websocket'
+import { LabGuiWebsocket, LabGuiWebsocketOptions, SendData } from '../src'
 
 const getMockLabGuiWebsocket = (
   url: string,
@@ -13,7 +13,7 @@ const getMockLabGuiWebsocket = (
   const wsClient = new LabGuiWebsocket(url, {
     debug,
     websocketClass: mockWebSocket,
-    ...options
+    ...options,
   })
   return wsClient
 }
@@ -23,8 +23,8 @@ interface CustomMessageEvent extends Event {
 }
 
 const getDelay = (time: number): Promise<{}> => {
-  const delay = new Promise<{}>(function(resolve, reject) {
-    setTimeout(function() {
+  const delay = new Promise<{}>(function (resolve, reject) {
+    setTimeout(function () {
       resolve('foo')
     }, time)
   })
@@ -61,7 +61,7 @@ describe('Testing LabGuiWebsocket', () => {
       msgObjectArray = []
     })
 
-    it('messages sent at connection start', done => {
+    it('messages sent at connection start', (done) => {
       const mockServer = new Server(url)
 
       mockServer.on('connection', (socket: mockWebSocket) => {
@@ -84,7 +84,7 @@ describe('Testing LabGuiWebsocket', () => {
       }, 100)
     })
 
-    it('messages sent as response (overwriting on message)', done => {
+    it('messages sent as response (overwriting on message)', (done) => {
       const mockServer = new Server(url)
 
       // the cast of socket to any is needed due to a know bug in the type definitions of mock-socket
@@ -114,7 +114,7 @@ describe('Testing LabGuiWebsocket', () => {
       }, 100)
     })
 
-    it('messages sent as response, sending a string and using message_logic', done => {
+    it('messages sent as response, sending a string and using message_logic', (done) => {
       const mockServer = new Server(url)
 
       // the cast of socket to any is needed due to a know bug in the type definitions of mock-socket
@@ -145,7 +145,7 @@ describe('Testing LabGuiWebsocket', () => {
       }, 100)
     })
 
-    it('messages sent as response, sending a SendData object and using message_logic', done => {
+    it('messages sent as response, sending a SendData object and using message_logic', (done) => {
       const mockServer = new Server(url)
 
       // the cast of socket to any is needed due to a know bug in the type definitions of mock-socket
@@ -182,7 +182,7 @@ describe('Testing LabGuiWebsocket', () => {
       msgStringArray = []
     })
 
-    it('wait 3sec to create server and let the client autoconnect', done => {
+    it('wait 3sec to create server and let the client autoconnect', (done) => {
       let mockServer: Server
       const wsClient = getMockLabGuiWebsocket(url)
 
@@ -206,7 +206,7 @@ describe('Testing LabGuiWebsocket', () => {
         .catch(() => 'just for linting')
     })
 
-    it('wait for connection to time out', done => {
+    it('wait for connection to time out', (done) => {
       // timeout only gets called because it isn't reset by clearTimeout,
       // which is why clearTimeout needs to be mocked
       jest.useFakeTimers()
@@ -214,7 +214,7 @@ describe('Testing LabGuiWebsocket', () => {
       const spyClear = jest.spyOn(global, 'clearTimeout').mockImplementation()
       let mockServer = new Server(url)
       const wsClient = getMockLabGuiWebsocket(url, true, {
-        timeoutInterval: 10
+        timeoutInterval: 10,
       })
       jest.runOnlyPendingTimers()
       expect(spyLog).toHaveBeenCalled()
@@ -233,13 +233,13 @@ describe('Testing LabGuiWebsocket', () => {
   })
   describe('Wanted exceptions and dev helper functions', () => {
     const wsClient = getMockLabGuiWebsocket(url, false, {
-      automaticOpen: false
+      automaticOpen: false,
     })
 
     it('get_message_object of not a JSON parsable string msg.data', () => {
       const exception = () => {
         const falsyMsgEvent = {
-          data: '{"missing": "curly bracet to parse"'
+          data: '{"missing": "curly bracet to parse"',
         } as MessageEvent
         wsClient.get_message_object(falsyMsgEvent)
       }
@@ -250,7 +250,7 @@ describe('Testing LabGuiWebsocket', () => {
     it('get_message_object of not string msg.data', () => {
       const exception = () => {
         const falsyMsgEvent = {
-          data: 1
+          data: 1,
         } as MessageEvent
         wsClient.get_message_object(falsyMsgEvent)
       }
@@ -298,7 +298,7 @@ describe('Testing LabGuiWebsocket', () => {
       debugClient.get_message_object(message)
       expect(spy).toHaveBeenCalled()
       expect(spy).toHaveBeenCalledWith('LabGuiWebsocket resolved message to msgObject: ', {
-        test: 1
+        test: 1,
       })
       spy.mockRestore()
     })
