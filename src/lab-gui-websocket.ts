@@ -85,13 +85,13 @@ export class LabGuiWebsocket {
   private forcedClose: boolean = false
   private timedOut: boolean = false
   /* tslint:disable:no-empty */
-  public onopen: (event: Event) => void = (event) => {}
+  public onopen: (event: Event) => void = (_event: Event) => {}
   /* tslint:disable:no-empty */
-  public onclose: (event: Event) => void = (event) => {}
+  public onclose: (event: Event) => void = (_event: Event) => {}
   /* tslint:disable:no-empty */
   public onconnecting: () => void = () => {}
   /* tslint:disable:no-empty */
-  public onerror: (event: Event) => void = (event) => {}
+  public onerror: (event: Event) => void = (_event: Event) => {}
 
   // Default settings
   settings: LabGuiWebsocketSettings = {
