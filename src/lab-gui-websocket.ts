@@ -36,7 +36,7 @@ export interface SendData {
 }
 
 export interface LabGuiWebsocketSettings extends LabGuiWebsocketOptions {
-  /** Protocolls to be used */
+  /** Protocols to be used */
   protocols: string[]
 }
 
@@ -44,10 +44,10 @@ export interface LabGuiWebsocketOptions {
   /** Whether this instance should log debug messages. */
   debug?: boolean
 
-  /** Protocolls to be used */
+  /** Protocols to be used */
   protocols?: string[]
 
-  /** WebSocket Class to create the WebSocket, thsi is mainly to mock it for testing */
+  /** WebSocket Class to create the WebSocket, this is mainly to mock it for testing */
   websocketClass?: typeof WebSocket
 
   /** Whether or not the websocket should attempt to connect immediately upon instantiation. */
@@ -85,13 +85,13 @@ export class LabGuiWebsocket {
   private forcedClose: boolean = false
   private timedOut: boolean = false
   /* tslint:disable:no-empty */
-  public onopen: (event: Event) => void = event => {}
+  public onopen: (event: Event) => void = (event) => {}
   /* tslint:disable:no-empty */
-  public onclose: (event: Event) => void = event => {}
+  public onclose: (event: Event) => void = (event) => {}
   /* tslint:disable:no-empty */
   public onconnecting: () => void = () => {}
   /* tslint:disable:no-empty */
-  public onerror: (event: Event) => void = event => {}
+  public onerror: (event: Event) => void = (event) => {}
 
   // Default settings
   settings: LabGuiWebsocketSettings = {
@@ -103,7 +103,7 @@ export class LabGuiWebsocket {
     reconnectDecay: 1.5,
     timeoutInterval: 2000,
     maxReconnectAttempts: null,
-    binaryType: 'blob'
+    binaryType: 'blob',
   }
 
   constructor(url: string, options: LabGuiWebsocketOptions = {}) {
@@ -146,7 +146,7 @@ export class LabGuiWebsocket {
 
   /**
    * Takes the response from the Server (which is expected to be a JSON sting)
-   * and return the object repressentation of that data.
+   * and return the object representation of that data.
    */
   public get_message_object(response: MessageEvent): object {
     if (typeof response.data === 'string') {
